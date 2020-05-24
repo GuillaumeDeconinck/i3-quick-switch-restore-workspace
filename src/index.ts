@@ -15,25 +15,36 @@ const execPromisified = promisify(exec);
 const TEMP_WORKSPACE_NAME = "99: Temporary";
 
 async function showActionChoices() {
-  const actions: string[] = possibleActions.map((v) => `<b>${v}</b>`);
-  const actionChosen = await promptRofi("What to do ?", actions, {
-    onlyMatch: true,
-    noCustom: true,
-  });
+
+  let actionChosen: string;
+
+  if (process.argv.length > 3) {
+    const namespace = process.argv[2];
+    const command = process.argv[3];
+    const actionFound = possibleActions.find(v => v.namespace === namespace && v.command === command);
+    actionChosen = actionFound ? actionFound.message : '';
+  } else {
+    const actions: string[] = possibleActions.map((v) => `<b>${v.message}</b>`);
+    actionChosen = await promptRofi("What to do ?", actions, {
+      onlyMatch: true,
+      noCustom: true,
+    });
+  }
+
   switch (actionChosen) {
-    case ACTION_GO_TO_WORKSPACE:
+    case ACTION_GO_TO_WORKSPACE.message:
       // Go to workspace
       await switchToWorkspace();
       break;
-    case ACTION_RENAME_WORKSPACE:
+    case ACTION_RENAME_WORKSPACE.message:
       // Rename current workspace
       await renameWorkspace();
       break;
-    case ACTION_NEW_WORKSPACE:
+    case ACTION_NEW_WORKSPACE.message:
       // New workspace
       await newWorkspaceAndMoveCurrent();
       break;
-    case ACTION_LOAD_WORKSPACE_IN_CURRENT:
+    case ACTION_LOAD_WORKSPACE_IN_CURRENT.message:
       // Load workspace in current
       await loadWorkspaceInCurrent();
       break;

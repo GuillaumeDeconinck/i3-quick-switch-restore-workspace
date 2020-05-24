@@ -44,55 +44,64 @@ var execPromisified = util_1.promisify(child_process_1.exec);
 var TEMP_WORKSPACE_NAME = "99: Temporary";
 function showActionChoices() {
     return __awaiter(this, void 0, void 0, function () {
-        var actions, actionChosen, _a;
+        var actionChosen, namespace_1, command_1, actionFound, actions, _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    actions = actions_1.possibleActions.map(function (v) { return "<b>" + v + "</b>"; });
+                    if (!(process.argv.length > 3)) return [3 /*break*/, 1];
+                    namespace_1 = process.argv[2];
+                    command_1 = process.argv[3];
+                    actionFound = actions_1.possibleActions.find(function (v) { return v.namespace === namespace_1 && v.command === command_1; });
+                    actionChosen = actionFound ? actionFound.message : '';
+                    return [3 /*break*/, 3];
+                case 1:
+                    actions = actions_1.possibleActions.map(function (v) { return "<b>" + v.message + "</b>"; });
                     return [4 /*yield*/, promptRofi("What to do ?", actions, {
                             onlyMatch: true,
                             noCustom: true,
                         })];
-                case 1:
+                case 2:
                     actionChosen = _b.sent();
+                    _b.label = 3;
+                case 3:
                     _a = actionChosen;
                     switch (_a) {
-                        case actions_1.ACTION_GO_TO_WORKSPACE: return [3 /*break*/, 2];
-                        case actions_1.ACTION_RENAME_WORKSPACE: return [3 /*break*/, 4];
-                        case actions_1.ACTION_NEW_WORKSPACE: return [3 /*break*/, 6];
-                        case actions_1.ACTION_LOAD_WORKSPACE_IN_CURRENT: return [3 /*break*/, 8];
+                        case actions_1.ACTION_GO_TO_WORKSPACE.message: return [3 /*break*/, 4];
+                        case actions_1.ACTION_RENAME_WORKSPACE.message: return [3 /*break*/, 6];
+                        case actions_1.ACTION_NEW_WORKSPACE.message: return [3 /*break*/, 8];
+                        case actions_1.ACTION_LOAD_WORKSPACE_IN_CURRENT.message: return [3 /*break*/, 10];
                     }
-                    return [3 /*break*/, 10];
-                case 2: 
+                    return [3 /*break*/, 12];
+                case 4: 
                 // Go to workspace
                 return [4 /*yield*/, switchToWorkspace()];
-                case 3:
+                case 5:
                     // Go to workspace
                     _b.sent();
-                    return [3 /*break*/, 11];
-                case 4: 
+                    return [3 /*break*/, 13];
+                case 6: 
                 // Rename current workspace
                 return [4 /*yield*/, renameWorkspace()];
-                case 5:
+                case 7:
                     // Rename current workspace
                     _b.sent();
-                    return [3 /*break*/, 11];
-                case 6: 
+                    return [3 /*break*/, 13];
+                case 8: 
                 // New workspace
                 return [4 /*yield*/, newWorkspaceAndMoveCurrent()];
-                case 7:
+                case 9:
                     // New workspace
                     _b.sent();
-                    return [3 /*break*/, 11];
-                case 8: 
+                    return [3 /*break*/, 13];
+                case 10: 
                 // Load workspace in current
                 return [4 /*yield*/, loadWorkspaceInCurrent()];
-                case 9:
+                case 11:
                     // Load workspace in current
                     _b.sent();
-                    return [3 /*break*/, 11];
-                case 10: return [3 /*break*/, 11];
-                case 11: return [2 /*return*/];
+                    return [3 /*break*/, 13];
+                case 12: return [3 /*break*/, 13];
+                case 13: return [2 /*return*/];
             }
         });
     });
