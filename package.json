@@ -1,0 +1,22 @@
+{
+  "name": "i3-quick-switch-restore-workspace",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx ts-node src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc && pkg src/index.js -t node12-linux-x64"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^14.0.1",
+    "@types/shelljs": "^0.8.8",
+    "ts-node": "^8.10.1",
+    "typescript": "^3.9.2"
+  },
+  "dependencies": {
+    "shelljs": "^0.8.4"
+  }
+}
